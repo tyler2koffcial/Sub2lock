@@ -3,38 +3,112 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Sub2Unlock</title>
+<title>Sub2Lock</title>
 
 <style>
-body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-    background: linear-gradient(135deg, #1e3c72, #2a5298);
-    color: #fff;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
+body{
+  margin:0;
+  font-family:Arial,sans-serif;
+  background:linear-gradient(135deg,#1e3c72,#2a5298);
+  color:white;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  height:100vh;
+}
+.box{
+  background:rgba(0,0,0,0.6);
+  padding:20px;
+  border-radius:16px;
+  width:90%;
+  max-width:380px;
+  text-align:center;
+}
+input,button{
+  width:100%;
+  padding:12px;
+  margin-top:10px;
+  border:none;
+  border-radius:10px;
+  font-size:16px;
+}
+button{cursor:pointer;}
+.sub{background:#ff0000;color:#fff;}
+.follow{background:#1877f2;color:#fff;}
+.unlock{background:#00c853;color:#fff;display:none;}
+#lockBox{display:none;}
+#ads,#count{margin-top:10px;}
+</style>
+</head>
+
+<body>
+
+<div class="box">
+  <h2>🔒 Link Locked</h2>
+
+  <input id="linkInput" placeholder="Paste your real link">
+
+  <button class="sub" onclick="clickAction('subscribe')">📺 Subscribe</button>
+  <button class="follow" onclick="clickAction('follow')">👍 Follow</button>
+
+  <div id="lockBox">
+    <div id="ads"></div>
+    <div id="status"></div>
+    <div id="count"></div>
+    <button class="unlock" id="unlockBtn">🔓 OPEN LINK</button>
+  </div>
+</div>
+
+<script>
+let clicked={subscribe:false,follow:false};
+let realLink="";
+
+function clickAction(action){
+  if(realLink===""){
+    realLink=document.getElementById("linkInput").value;
+    if(realLink===""){alert("Ilagay muna link 😅");return;}
+    document.getElementById("linkInput").style.display="none";
+    document.querySelectorAll("button.sub,button.follow")
+      .forEach(b=>b.style.display="none");
+    document.getElementById("lockBox").style.display="block";
+  }
+
+  clicked[action]=true;
+  document.getElementById("ads").innerHTML="⏳ Loading ads...";
+  setTimeout(updateStatus,3000);
 }
 
-.container {
-    background: rgba(0,0,0,0.6);
-    padding: 20px;
-    border-radius: 16px;
-    width: 90%;
-    max-width: 400px;
-    text-align: center;
-    box-shadow: 0 0 20px rgba(0,0,0,0.5);
+function updateStatus(){
+  document.getElementById("ads").innerHTML="";
+  document.getElementById("status").innerHTML=
+    "Subscribe: "+(clicked.subscribe?"✅":"❌")+
+    "<br>Follow: "+(clicked.follow?"✅":"❌");
+
+  if(clicked.subscribe && clicked.follow){
+    startCountdown();
+  }
 }
 
-h1 {
-    margin-bottom: 10px;
+function startCountdown(){
+  let time=5;
+  const c=document.getElementById("count");
+  c.style.display="block";
+  const t=setInterval(()=>{
+    c.innerHTML="Unlocking in "+time+"s...";
+    time--;
+    if(time<0){
+      clearInterval(t);
+      document.getElementById("unlockBtn").style.display="block";
+      document.getElementById("unlockBtn").onclick=()=>{
+        window.location.href=realLink;
+      };
+    }
+  },1000);
 }
+</script>
 
-button {
-    width: 100%;
-    padding: 14px;
-    margin-top: 12px;
+</body>
+</html>    margin-top: 12px;
     border: none;
     border-radius: 12px;
     font-size: 16px;
