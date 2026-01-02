@@ -1,75 +1,122 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Sub2Lock Site</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sub2Unlock</title>
+
 <style>
-body{
-  font-family: Arial, sans-serif;
-  text-align:center;
-  background: linear-gradient(135deg,#111,#222);
-  color:white;
-  padding:20px;
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: linear-gradient(135deg, #1e3c72, #2a5298);
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
 }
-h1{
-  color:#ff5500;
-  text-shadow:2px 2px 4px #000;
+
+.container {
+    background: rgba(0,0,0,0.6);
+    padding: 20px;
+    border-radius: 16px;
+    width: 90%;
+    max-width: 400px;
+    text-align: center;
+    box-shadow: 0 0 20px rgba(0,0,0,0.5);
 }
-input{
-  width:90%;
-  padding:14px;
-  font-size:16px;
-  border-radius:8px;
-  border:none;
-  margin-top:10px;
+
+h1 {
+    margin-bottom: 10px;
 }
-button{
-  padding:15px 25px;
-  font-size:18px;
-  margin:10px;
-  border:none;
-  border-radius:12px;
-  cursor:pointer;
-  box-shadow:2px 2px 8px #000;
-  transition: 0.3s;
+
+button {
+    width: 100%;
+    padding: 14px;
+    margin-top: 12px;
+    border: none;
+    border-radius: 12px;
+    font-size: 16px;
+    cursor: pointer;
 }
-button:hover{
-  transform: scale(1.05);
+
+#subBtn {
+    background: #ff0000;
+    color: #fff;
 }
-#subscribeBtn { background:#FF0000; color:white; }
-#followBtn { background:#00AAFF; color:white; }
-#count{ font-size:20px; margin-top:20px; color:#ffff00;}
-#ads{ font-size:16px; color:#ffcc00; margin-top:20px;}
-#status{ font-size:18px; margin-top:10px;}
-#result{ font-size:22px; margin-top:25px; color:#00ffcc;}
+
+#followBtn {
+    background: #1877f2;
+    color: #fff;
+}
+
+#unlockBtn {
+    background: #00c853;
+    color: #fff;
+    display: none;
+}
+
+#loading {
+    display: none;
+    margin-top: 15px;
+}
 </style>
 </head>
+
 <body>
+<div class="container">
+    <h1>🔒 Link Locked</h1>
+    <p>Subscribe & Follow to unlock</p>
 
-<h1>🔒 Sub2Lock True Lock</h1>
+    <button id="subBtn">📺 Subscribe on YouTube</button>
+    <button id="followBtn">👍 Follow on Facebook</button>
 
-<p>Ilagay ang link na i-lock:</p>
-<input id="linkInput" placeholder="https://example.com"><br>
-<button onclick="createLock()">Create Locked Page</button>
+    <div id="loading">⏳ Loading ads...</div>
 
-<div id="lockBox" style="display:none;">
-  <h2>Subscribe and Follow to Unlock</h2>
-  <button id="subscribeBtn" onclick="clickButton('subscribe')">Subscribe</button>
-  <button id="followBtn" onclick="clickButton('follow')">Follow</button>
-  <p id="status"></p>
-  <div id="ads"></div>
-  <div id="count"></div>
-  <div id="result"></div>
+    <button id="unlockBtn">🔓 OPEN LINK</button>
 </div>
 
 <script>
-var realLink = "";
-var youtubeLink = "https://www.youtube.com/@Tyler2k-official"; // palitan ng YouTube mo
-var fbLink = "https://www.facebook.com/YOURPAGE"; // palitan ng FB page mo
+const YT_LINK = "https://www.youtube.com/@Tyler2k-official";
+const FB_LINK = "https://www.facebook.com/profile.php?id=61578138837288"
+const UNLOCK_LINK = "https://www.mediafire.com/file/jssavahl6phxcuo/com.t2ksports.nba2k20and.zip/file?fbclid=IwZXh0bgNhZW0CMTEAc3J0YwZhcHBfaWQPMjc1MjU0NjkyNTk4Mjc5AAEe2UZK1513hrVRgARbnU7LA-MKnGwKNZrgFpCAxo1IaCfNKUgsjOirNs4BBRo_aem_C6JMFi8NNNqMJo8e3kawRQ";
 
-var clicked = { subscribe: false, follow: false };
+let subDone = false;
+let followDone = false;
 
+document.getElementById("subBtn").onclick = () => {
+    window.open(YT_LINK, "_blank");
+    fakeLoading(() => subDone = true);
+};
+
+document.getElementById("followBtn").onclick = () => {
+    window.open(FB_LINK, "_blank");
+    fakeLoading(() => followDone = true);
+};
+
+function fakeLoading(done) {
+    const loading = document.getElementById("loading");
+    loading.style.display = "block";
+    setTimeout(() => {
+        loading.style.display = "none";
+        done();
+        checkUnlock();
+    }, 3000); // ads delay
+}
+
+function checkUnlock() {
+    if (subDone && followDone) {
+        document.getElementById("unlockBtn").style.display = "block";
+    }
+}
+
+document.getElementById("unlockBtn").onclick = () => {
+    window.location.href = UNLOCK_LINK;
+};
+</script>
+</body>
+</html>
 function createLock(){
     realLink = document.getElementById("linkInput").value;
     if(realLink==""){ alert("Ilagay mo muna link 😅"); return; }
