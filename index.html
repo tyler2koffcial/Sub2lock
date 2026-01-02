@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sub2Unlock</title>
+
+<style>
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: linear-gradient(135deg, #1e3c72, #2a5298);
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.container {
+    background: rgba(0,0,0,0.6);
+    padding: 20px;
+    border-radius: 16px;
+    width: 90%;
+    max-width: 400px;
+    text-align: center;
+    box-shadow: 0 0 20px rgba(0,0,0,0.5);
+}
+
+h1 {
+    margin-bottom: 10px;
+}
+
+button {
+    width: 100%;
+    padding: 14px;
+    margin-top: 12px;
+    border: none;
+    border-radius: 12px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+#subBtn {
+    background: #ff0000;
+    color: #fff;
+}
+
+#followBtn {
+    background: #1877f2;
+    color: #fff;
+}
+
+#unlockBtn {
+    background: #00c853;
+    color: #fff;
+    display: none;
+}
+
+#loading {
+    display: none;
+    margin-top: 15px;
+}
+</style>
+</head>
+
+<body>
+<div class="container">
+    <h1>🔒 Link Locked</h1>
+    <p>Subscribe & Follow to unlock</p>
+
+    <button id="subBtn">📺 Subscribe on YouTube</button>
+    <button id="followBtn">👍 Follow on Facebook</button>
+
+    <div id="loading">⏳ Loading ads...</div>
+
+    <button id="unlockBtn">🔓 OPEN LINK</button>
+</div>
+
+<script>
+const YT_LINK = "https://www.youtube.com/@Tyler2k-official";
+const FB_LINK = "https://www.facebook.com/profile.php?id=61578138837288"
+const UNLOCK_LINK = "https://www.mediafire.com/file/jssavahl6phxcuo/com.t2ksports.nba2k20and.zip/file?fbclid=IwZXh0bgNhZW0CMTEAc3J0YwZhcHBfaWQPMjc1MjU0NjkyNTk4Mjc5AAEe2UZK1513hrVRgARbnU7LA-MKnGwKNZrgFpCAxo1IaCfNKUgsjOirNs4BBRo_aem_C6JMFi8NNNqMJo8e3kawRQ";
+
+let subDone = false;
+let followDone = false;
+
+document.getElementById("subBtn").onclick = () => {
+    window.open(YT_LINK, "_blank");
+    fakeLoading(() => subDone = true);
+};
+
+document.getElementById("followBtn").onclick = () => {
+    window.open(FB_LINK, "_blank");
+    fakeLoading(() => followDone = true);
+};
+
+function fakeLoading(done) {
+    const loading = document.getElementById("loading");
+    loading.style.display = "block";
+    setTimeout(() => {
+        loading.style.display = "none";
+        done();
+        checkUnlock();
+    }, 3000); // ads delay
+}
+
+function checkUnlock() {
+    if (subDone && followDone) {
+        document.getElementById("unlockBtn").style.display = "block";
+    }
+}
+
+document.getElementById("unlockBtn").onclick = () => {
+    window.location.href = UNLOCK_LINK;
+};
+</script>
+</body>
+</html>
