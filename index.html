@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Sub2Lock Site</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+body{
+  font-family: Arial, sans-serif;
+  text-align:center;
+  background: linear-gradient(135deg,#111,#222);
+  color:white;
+  padding:20px;
+}
+h1{
+  color:#ff5500;
+  text-shadow:2px 2px 4px #000;
+}
+input{
+  width:90%;
+  padding:14px;
+  font-size:16px;
+  border-radius:8px;
+  border:none;
+  margin-top:10px;
+}
+button{
+  padding:15px 25px;
+  font-size:18px;
+  margin:10px;
+  border:none;
+  border-radius:12px;
+  cursor:pointer;
+  box-shadow:2px 2px 8px #000;
+  transition: 0.3s;
+}
+button:hover{
+  transform: scale(1.05);
+}
+#subscribeBtn { background:#FF0000; color:white; }
+#followBtn { background:#00AAFF; color:white; }
+#count{ font-size:20px; margin-top:20px; color:#ffff00;}
+#ads{ font-size:16px; color:#ffcc00; margin-top:20px;}
+#status{ font-size:18px; margin-top:10px;}
+#result{ font-size:22px; margin-top:25px; color:#00ffcc;}
+</style>
+</head>
+<body>
+
+<h1>🔒 Sub2Lock True Lock</h1>
+
+<p>Ilagay ang link na i-lock:</p>
+<input id="linkInput" placeholder="https://example.com"><br>
+<button onclick="createLock()">Create Locked Page</button>
+
+<div id="lockBox" style="display:none;">
+  <h2>Subscribe and Follow to Unlock</h2>
+  <button id="subscribeBtn" onclick="clickButton('subscribe')">Subscribe</button>
+  <button id="followBtn" onclick="clickButton('follow')">Follow</button>
+  <p id="status"></p>
+  <div id="ads"></div>
+  <div id="count"></div>
+  <div id="result"></div>
+</div>
+
+<script>
+var realLink = "";
+var youtubeLink = "https://www.youtube.com/@Tyler2k-official"; // palitan ng YouTube mo
+var fbLink = "https://www.facebook.com/YOURPAGE"; // palitan ng FB page mo
+
+var clicked = { subscribe: false, follow: false };
+
+function createLock(){
+    realLink = document.getElementById("linkInput").value;
+    if(realLink==""){ alert("Ilagay mo muna link 😅"); return; }
+    document.getElementById("linkInput").style.display="none";
+    document.querySelector("button").style.display="none";
+    document.getElementById("lockBox").style.display="block";
+}
+
+function clickButton(action){
+    if(action=="subscribe") clicked.subscribe = true;
+    if(action=="follow") clicked.follow = true;
+
+    // Show loading / ad placeholder
+    if(action=="subscribe") document.getElementById("ads").innerHTML="Loading YouTube Subscribe + Ads...";
+    if(action=="follow") document.getElementById("ads").innerHTML="Loading Facebook Follow + Ads...";
+
+    document.getElementById("status").innerHTML = "Status: " + 
+        (clicked.subscribe ? "Subscribed ✅ " : "Subscribed ❌ ") +
+        (clicked.follow ? "Followed ✅" : "Followed ❌");
+
+    if(clicked.subscribe && clicked.follow){
+        startCountdown();
+    }
+}
+
+function startCountdown(){
+    document.getElementById("ads").innerHTML="";
+    var time = 5;
+    var countDiv = document.getElementById("count");
+    countDiv.innerHTML = "Unlocking in " + time + "s...";
+
+    var timer = setInterval(function(){
+        time--;
+        countDiv.innerHTML = "Unlocking in " + time + "s...";
+        if(time<=0){
+            clearInterval(timer);
+            countDiv.style.display="none";
+            document.getElementById("result").innerHTML =
+            "<a href='"+realLink+"' target='_blank'>👉 OPEN LINK</a><br>" +
+            "<a href='"+youtubeLink+"' target='_blank'>Subscribe to YouTube</a><br>" +
+            "<a href='"+fbLink+"' target='_blank'>Follow Facebook Page</a>";
+        }
+    },1000);
+}
+</script>
+
+</body>
+</html>
